@@ -17,13 +17,13 @@ question_3 = "3. What is your chest pain type?"
 question_4 = "4. How's your blood pressure? (in mmHg)"
 question_5 = "5. How's your colestrol? (in mg/dl)"
 question_6 = "6. Do you suffer blood sugar?"
-question_7 = "7. ..."
-question_8 = "8. ..."
-question_9 = "9. ..."
-question_10 = "10. ..."
-question_11 = "11. ..."
-question_12 = "12. ..."
-question_13 = "13. ..."
+question_7 = "7. Resting ECG"
+question_8 = "8. Max-heart rate achieved"
+question_9 = "9. Exercise induced angina"
+question_10 = "10. ST depression induced by exercise relative to rest"
+question_11 = "11. Peak exercise ST segment"
+question_12 = "12. Number of major vessels colored by flourosopy"
+question_13 = "13. Thal"
 
 #app root
 app.layout = html.Div(children=[
@@ -86,7 +86,7 @@ app.layout = html.Div(children=[
                             ],
                             value=1
                         )
-                    ], className="mb-4"),
+                    ]),
                     html.Div(children=[
                         html.P(id="gender-p")
                     ], className="pt-4")
@@ -112,7 +112,7 @@ app.layout = html.Div(children=[
                             ],
                             value=1
                         )
-                    ], className="mb-4"),
+                    ]),
                     html.Div(children=[
                         html.P(id="chest-pain-p")
                     ], className="pt-4")
@@ -182,7 +182,7 @@ app.layout = html.Div(children=[
                             ],
                             value=0
                         )
-                    ], className="mb-4"),
+                    ]),
                     html.Div(children=[
                         html.P(id="blood-sugar-p")
                     ], className="pt-4")
@@ -207,7 +207,7 @@ app.layout = html.Div(children=[
                             ],
                             value=0
                         )
-                    ], className="mb-4"),
+                    ]),
                     html.Div(children=[
                         html.P(id="ecg-p")
                     ], className="pt-4")
@@ -223,15 +223,11 @@ app.layout = html.Div(children=[
                 html.Div(children=[
                     html.H5(children=question_8, className="mb-4"),
                     html.Div(children=[
-                        # dcc.Dropdown(
-                        #     id="heart-rate",
-                        #     options=[
-                        #         {'label': 'Yes', 'value': 1},
-                        #         {'label': 'No', 'value': 0}
-                        #     ],
-                        #     value=0
-                        # )
-                    ], className="mb-4"),
+                        dcc.Input(
+                            id="heart-rate",
+                            value=90
+                        )
+                    ]),
                     html.Div(children=[
                         html.P(id="heart-rate-p")
                     ], className="pt-4")
@@ -258,7 +254,7 @@ app.layout = html.Div(children=[
                     ], className="mb-4"),
                     html.Div(children=[
                         html.P(id="induced-angina-p")
-                    ], className="pt-4")
+                    ])
                 ], className="card-panel")
             ], className="col")
         ], className="row")
@@ -271,15 +267,11 @@ app.layout = html.Div(children=[
                 html.Div(children=[
                     html.H5(children=question_10, className="mb-4"),
                     html.Div(children=[
-                        # dcc.Dropdown(
-                        #     id="st-depression",
-                        #     options=[
-                        #         {'label': 'Yes', 'value': 1},
-                        #         {'label': 'No', 'value': 0}
-                        #     ],
-                        #     value=0
-                        # )
-                    ], className="mb-4"),
+                        dcc.Input(
+                            id="st-depression",
+                            value=0
+                        )
+                    ]),
                     html.Div(children=[
                         html.P(id="st-depression-p")
                     ], className="pt-4")
@@ -304,7 +296,7 @@ app.layout = html.Div(children=[
                             ],
                             value=2
                         )
-                    ], className="mb-4"),
+                    ]),
                     html.Div(children=[
                         html.P(id="st-segment-p")
                     ], className="pt-4")
@@ -320,15 +312,13 @@ app.layout = html.Div(children=[
                 html.Div(children=[
                     html.H5(children=question_12, className="mb-4"),
                     html.Div(children=[
-                        # dcc.Dropdown(
-                        #     id="vessel",
-                        #     options=[
-                        #         {'label': 'Upsloping', 'value': 1},
-                        #         {'label': 'Flat', 'value': 2},
-                        #         {'label': 'Downsloping', 'value': 3}
-                        #     ],
-                        #     value=0
-                        # )
+                        dcc.Slider(
+                            id="vessel",
+                            min=0,
+                            max=3,
+                            marks={i: str(i) for i in range(0,4)},
+                            value=0
+                        )
                     ], className="mb-4"),
                     html.Div(children=[
                         html.P(id="vessel-p")
@@ -354,7 +344,7 @@ app.layout = html.Div(children=[
                             ],
                             value=3
                         )
-                    ], className="mb-4"),
+                    ]),
                     html.Div(children=[
                         html.P(id="thal-p")
                     ], className="pt-4")
@@ -362,6 +352,19 @@ app.layout = html.Div(children=[
             ], className="col")
         ], className="row")
     ], className="container py-1"),
+
+    #Submit button
+    html.Div(children=[
+        html.Div(children=[
+            html.Div(children=[
+                html.Button(id='submit', children='Go!',
+                    className="btn-large waves-effect waves-light")
+                ], className="col",
+                style={
+                    'textAlign': 'center'
+            })
+        ], className="row")
+    ], className="container py-1")
 ])
 
 #Callbacks
@@ -422,11 +425,27 @@ def update_ecg(input_value):
     return 'Your answer is "{}"'.format(input_value)
 
 @app.callback(
+    Output(component_id='heart-rate-p', component_property='children'),
+    [Input(component_id='heart-rate', component_property='value')]
+)
+
+def update_heart_rate(input_value):
+    return 'Your answer is "{}"'.format(input_value)
+
+@app.callback(
     Output(component_id='induced-angina-p', component_property='children'),
     [Input(component_id='induced-angina', component_property='value')]
 )
 
 def update_angina(input_value):
+    return 'Your answer is "{}"'.format(input_value)
+
+@app.callback(
+    Output(component_id='st-depression-p', component_property='children'),
+    [Input(component_id='st-depression', component_property='value')]
+)
+
+def update_st_depression(input_value):
     return 'Your answer is "{}"'.format(input_value)
 
 @app.callback(
@@ -438,12 +457,42 @@ def update_segment(input_value):
     return 'Your answer is "{}"'.format(input_value)
 
 @app.callback(
+    Output(component_id='vessel-p', component_property='children'),
+    [Input(component_id='vessel', component_property='value')]
+)
+
+def update_vessel(input_value):
+    return 'Your answer is "{}"'.format(input_value)
+
+@app.callback(
     Output(component_id='thal-p', component_property='children'),
     [Input(component_id='thal', component_property='value')]
 )
 
 def update_thal(input_value):
     return 'Your answer is "{}"'.format(input_value)
+
+# Callback for submit button
+# @app.callback(
+#     Output(component_id='output', component_property='children'),
+#     [State('age', 'value'),
+#      State('gender', 'value'),
+#      State('chest-pain', 'value'),
+#      State('blood-pressure', 'value'),
+#      State('colestrol', 'value'),
+#      State('blood-sugar', 'value'),
+#      State('ecg', 'value'),
+#      State('heart-rate', 'value'),
+#      State('induced-angina', 'value'),
+#      State('st-depression', 'value'),
+#      State('st-segment', 'value'),
+#      State('vessel', 'value'),
+#      State('thal', 'value'),
+#     ]
+# )
+#
+# def result(age, gender, chest_pain, blood_p, colestrol, blood_s, ecg, heart_rate, induced_a, st_dep, st_seg, ves, thal):
+#     #Load the model and return output..
 
 if __name__ == "__main__":
     app.run_server(debug=True)
