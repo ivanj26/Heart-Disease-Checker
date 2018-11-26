@@ -401,15 +401,29 @@ def update_st_depression(input_value):
     ]
 )
 def result(n_clicks, age, gender, chest_pain, blood_p, colestrol, blood_s, ecg, heart_rate, induced_a, st_dep):
+    # Load the model and return output..
     if(n_clicks > 0):
         instance = np.array([age, gender, chest_pain, blood_p, colestrol, blood_s, ecg, int(heart_rate), induced_a, int(st_dep)])
         reshape = instance.reshape(1, -1)
         result = predict(reshape)
         print(result)
-        return result
+
+        if(result == [0]):
+            return "You don't have a heart disease. Enjoy your day!"
+        elif(result == [1]):
+            return "you have a heart disease stage 1."
+        elif(result == [2]):
+            return "you have a heart disease stage 2."
+        elif (result == [3]):
+            return "you have a heart disease stage 3."
+        elif (result == [4]):
+            return "you have a heart disease stage 4."
+        else:
+            print(result);
+            return "Error while predicting. Try again."
     else:
         n_clicks+=1
-    #Load the model and return output..
+
 
 def predict(instance):
     filename_model = "heart_disease_model.mdl"
