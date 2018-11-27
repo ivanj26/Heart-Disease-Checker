@@ -11,14 +11,6 @@ View.render_view(app)
 
 
 @app.callback(
-    Output(component_id='age-out', component_property='children'),
-    [Input(component_id='age', component_property='value')]
-)
-def update_age(age):
-    return 'Your answer is {}'.format(age)
-
-
-@app.callback(
     Output(component_id='result', component_property='children'),
     [Input('submit', 'n_clicks')],
     [State('age', 'value'),
@@ -59,6 +51,14 @@ def serve_css(stylesheet):
     print(stylesheet)
     print(css_directory)
     return flask.send_from_directory(css_directory, stylesheet)
+
+
+res_directory = '{0}/res/'.format(os.getcwd())
+
+
+@app.server.route('/res/<resource>')
+def serve_res(resource):
+    return flask.send_from_directory(res_directory, resource)
 
 
 if __name__ == '__main__':

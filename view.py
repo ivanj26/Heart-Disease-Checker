@@ -52,19 +52,23 @@ class View:
                 Header().view(),
                 html.Div(children=[
                     html.H2(children='How old are you?'),
-                    core.Input(
-                        id='age',
-                        className='textbox',
-                        value=16
-                    ),
-                    html.P(id='age-out')
+                    html.Div(children=[
+                        core.Input(
+                            id='age',
+                            className='textbox small',
+                            value=16
+                        ),
+                        html.P(children='years old')
+                    ], className='input-with-label')
                 ], className='card question'),
                 html.Div(children=[
                     html.H2(children='What is your gender?'),
-                    core.Dropdown(
+                    core.RadioItems(
                         id='gender',
                         options=View.gender_options,
-                        value=1
+                        value=1,
+                        labelClassName='horizontal-radio',
+                        inputClassName='radio-input'
                     )
                 ], className='card question'),
                 html.Div(children=[
@@ -72,7 +76,8 @@ class View:
                     core.Dropdown(
                         id='chest-pain-type',
                         options=View.chest_pain_type_options,
-                        value=1
+                        className='dropdown medium',
+                        value=1,
                     )
                 ], className='card question'),
                 html.Div(children=[
@@ -88,18 +93,23 @@ class View:
                 ], className='card question'),
                 html.Div(children=[
                     html.H2(children='How is your cholesterol'),
-                    core.Input(
-                        id='cholesterol',
-                        className='textbox',
-                        value=150
-                    )
+                    html.Div(children=[
+                        core.Input(
+                            id='cholesterol',
+                            className='textbox small',
+                            value=150
+                        ),
+                        html.P(children='mg/dl')
+                    ], className='input-with-label')
                 ], className='card question'),
                 html.Div(children=[
-                    html.H2(children='Do you have high blood sugar level?'),
-                    core.Dropdown(
+                    html.H2(children='Do you have high blood sugar level? (>120mg/dl)'),
+                    core.RadioItems(
                         id='blood-sugar',
                         options=View.yes_no_options,
-                        value=0
+                        value=0,
+                        labelClassName='horizontal-radio',
+                        inputClassName='radio-input'
                     )
                 ], className='card question'),
                 html.Div(children=[
@@ -107,58 +117,70 @@ class View:
                     core.Dropdown(
                         id='ecg',
                         options=View.ecg_options,
+                        className='dropdown large',
                         value=0
                     )
-                ]),
+                ], className='card question'),
                 html.Div(children=[
                     html.H2(children='What is your maximum heart beat rate?'),
-                    core.Input(
-                        id='heart-rate',
-                        className='textbox',
-                        value=90
-                    )
-                ]),
+                    html.Div(children=[
+                        core.Input(
+                            id='heart-rate',
+                            className='textbox small',
+                            value=90
+                        ),
+                        html.P(children='bpm')
+                    ], className='input-with-label')
+                ], className='card question'),
                 html.Div(children=[
                     html.H2(children='Do you have exercise-induced angina?'),
-                    core.Dropdown(
+                    core.RadioItems(
                         id='exercise-induced-angina',
                         options=View.yes_no_options,
-                        value=0
+                        value=0,
+                        labelClassName='horizontal-radio',
+                        inputClassName='radio-input'
                     )
-                ]),
+                ], className='card question'),
                 html.Div(children=[
                     html.H2(children='Number of ST depression induced by exercise relative to rest?'),
                     core.Input(
                         id='st-depression',
-                        className='textbox',
+                        className='textbox small',
                         value=0
-                    )
-                ]),
+                    ),
+                ], className='card question'),
                 html.Div(children=[
                     html.H2(children='What is your peak exercise ST segment?'),
-                    core.Dropdown(
+                    core.RadioItems(
                         id='peak-st-segment',
                         options=View.peak_st_segment_options,
-                        value=1
+                        value=1,
+                        labelClassName='horizontal-radio',
+                        inputClassName='radio-input',
                     )
-                ]),
+                ], className='card question'),
                 html.Div(children=[
                     html.H2(children='How many major vessels colored by flourosopy?'),
-                    core.Dropdown(
+                    core.RadioItems(
                         id='amount-major-vessels',
                         options=View.amount_major_vessels_options,
-                        value=1
+                        value=1,
+                        labelClassName='horizontal-radio',
+                        inputClassName='radio-input'
                     )
-                ]),
+                ], className='card question'),
                 html.Div(children=[
                     html.H2(children='What is your thal status?'),
-                    core.Dropdown(
+                    core.RadioItems(
                         id='thal-status',
                         options=View.thal_status_options,
-                        value=3
+                        value=3,
+                        labelClassName='horizontal-radio',
+                        inputClassName='radio-input'
                     )
-                ]),
-                html.Button(id='submit', children='Calculate result'),
+                ], className='card question'),
+                html.Button(id='submit', children='Calculate result', className='button'),
                 html.Div(children=[
                     html.H2(id='result')
                 ])
