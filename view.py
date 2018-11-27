@@ -82,14 +82,14 @@ class View:
                 ], className='card question'),
                 html.Div(children=[
                     html.H2(children='How is your blood pressure?'),
-                    core.Slider(
-                        id='blood-pressure',
-                        min=70,
-                        max=190,
-                        step=None,
-                        marks={i: str(i) for i in range(70, 200, 10)},
-                        value=100
-                    )
+                    html.Div(children=[
+                        core.Input(
+                            id='blood-pressure',
+                            className='textbox small',
+                            value=110
+                        ),
+                        html.P(children='mmHg')
+                    ], className='input-with-label')
                 ], className='card question'),
                 html.Div(children=[
                     html.H2(children='How is your cholesterol'),
@@ -150,39 +150,7 @@ class View:
                         value=0
                     ),
                 ], className='card question'),
-                html.Div(children=[
-                    html.H2(children='What is your peak exercise ST segment?'),
-                    core.RadioItems(
-                        id='peak-st-segment',
-                        options=View.peak_st_segment_options,
-                        value=1,
-                        labelClassName='horizontal-radio',
-                        inputClassName='radio-input',
-                    )
-                ], className='card question'),
-                html.Div(children=[
-                    html.H2(children='How many major vessels colored by flourosopy?'),
-                    core.RadioItems(
-                        id='amount-major-vessels',
-                        options=View.amount_major_vessels_options,
-                        value=1,
-                        labelClassName='horizontal-radio',
-                        inputClassName='radio-input'
-                    )
-                ], className='card question'),
-                html.Div(children=[
-                    html.H2(children='What is your thal status?'),
-                    core.RadioItems(
-                        id='thal-status',
-                        options=View.thal_status_options,
-                        value=3,
-                        labelClassName='horizontal-radio',
-                        inputClassName='radio-input'
-                    )
-                ], className='card question'),
-                html.Button(id='submit', children='Calculate result', className='button'),
-                html.Div(children=[
-                    html.H2(id='result')
-                ])
+                html.Div(id='result'),
+                html.Button(id='submit', children='Calculate result', className='button')
             ], className='container')
         ], className='root')
