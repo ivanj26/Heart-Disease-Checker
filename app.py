@@ -4,8 +4,10 @@ import flask, os
 from sklearn.externals import joblib
 import numpy as np
 
+from view import View
 
 app = dash.Dash(__name__, external_stylesheets=['http://localhost:8050/css/app.css'])
+View.render_view(app)
 
 
 @app.callback(
@@ -28,7 +30,7 @@ def update_age(age):
      State('ecg', 'value'),
      State('heart-rate', 'value'),
      State('exercise-induced-angina', 'value'),
-     State('st-depressions', 'value')]
+     State('st-depression', 'value')]
 )
 def result(n_clicks, age, gender, chest_pain, blood_p, colestrol, blood_s, ecg, heart_rate, induced_a, st_dep):
     if n_clicks > 0:

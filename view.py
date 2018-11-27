@@ -54,6 +54,7 @@ class View:
                     html.H2(children='How old are you?'),
                     core.Input(
                         id='age',
+                        className='textbox',
                         value=16
                     ),
                     html.P(id='age-out')
@@ -89,6 +90,7 @@ class View:
                     html.H2(children='How is your cholesterol'),
                     core.Input(
                         id='cholesterol',
+                        className='textbox',
                         value=150
                     )
                 ], className='card question'),
@@ -112,6 +114,7 @@ class View:
                     html.H2(children='What is your maximum heart beat rate?'),
                     core.Input(
                         id='heart-rate',
+                        className='textbox',
                         value=90
                     )
                 ]),
@@ -127,6 +130,7 @@ class View:
                     html.H2(children='Number of ST depression induced by exercise relative to rest?'),
                     core.Input(
                         id='st-depression',
+                        className='textbox',
                         value=0
                     )
                 ]),
@@ -143,7 +147,7 @@ class View:
                     core.Dropdown(
                         id='amount-major-vessels',
                         options=View.amount_major_vessels_options,
-                        value=0
+                        value=1
                     )
                 ]),
                 html.Div(children=[
@@ -151,7 +155,7 @@ class View:
                     core.Dropdown(
                         id='thal-status',
                         options=View.thal_status_options,
-                        value=0
+                        value=3
                     )
                 ]),
                 html.Button(id='submit', children='Calculate result'),
